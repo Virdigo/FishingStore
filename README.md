@@ -1,0 +1,33 @@
+CREATE DATABASE FishingStoreDB;
+GO
+USE FishingStoreDB;
+
+CREATE TABLE Users (
+    Id INT PRIMARY KEY IDENTITY,
+    Username NVARCHAR(50) NOT NULL,
+    Password NVARCHAR(50) NOT NULL,
+    Role NVARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Products (
+    Id INT PRIMARY KEY IDENTITY,
+    Name NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(MAX) NULL,
+    Price DECIMAL(18, 2) NOT NULL
+);
+
+CREATE TABLE Orders (
+    Id INT PRIMARY KEY IDENTITY,
+    UserId INT NOT NULL,
+    OrderDate DATETIME NOT NULL,
+    FOREIGN KEY (UserId) REFERENCES Users(Id)
+);
+
+CREATE TABLE OrderItems (
+    OrderId INT NOT NULL,
+    ProductId INT NOT NULL,
+    Quantity INT NOT NULL,
+    FOREIGN KEY (OrderId) REFERENCES Orders(Id),
+    FOREIGN KEY (ProductId) REFERENCES Products(Id),
+    PRIMARY KEY (OrderId, ProductId)
+);
